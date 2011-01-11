@@ -3,14 +3,16 @@ layout: post
 title: lighttpd下用fastcgi调用php
 category: tech
 ---
+
 h3. 安装mysql
+
 {% highlight console %}
 tar zxvf mysql-5.0.45.tar.gz
 cd mysql-5.0.45
 ./configure --prefix=/usr/local/mysql --with-charset=gbk --enable-thread-safe-client
 make && make install
 make clean
-{% highlight console %}
+{% endhighlight %}
 
 {% highlight console %}
 /usr/sbin/adduser mysql
@@ -23,7 +25,7 @@ cp ./mysql* /usr/bin/
 cp -a /usr/local/mysql/lib/mysql/libmysqlclient* /usr/lib
 cp -a /usr/local/mysql/lib/mysql/libmysqlclient* /usr/lib64
 cp -r /usr/local/mysql/include/mysql /usr/include/
-{% highlight console %}
+{% endhighlight %}
 
 h3. 安装php
 
@@ -33,17 +35,17 @@ cd php-5.2.14
 ./configure --prefix=/usr/local/php-fcgi --enable-fastcgi --enable-force-cgi-redirect --without-iconv --enable-mbstring --with-mysql=/usr/local/mysql
 make && make install
 make clean
-{% highlight console %}
+{% endhighlight %}
 
 复制参数文件到目标目录:
 {% highlight console %}
 cp /home/supertool/linux/php-5.2.14/php.ini-dist /usr/local/php-fcgi/lib/php.ini
-{% highlight console %}
+{% endhighlight %}
 
 检查fast-cgi是否安装成功可以运行如下命令
 {% highlight console %}
 /usr/local/php-fcgi/bin/php-cgi -v
-{% highlight console %}
+{% endhighlight %}
 显示如下信息，内容里包含“PHP 5.2.14 (cgi-fcgi)"表示支持fast-cgi了
 PHP 5.2.14 (cgi-fcgi) (built: Oct  5 2010 01:28:59)
 Copyright (c) 1997-2010 The PHP Group
@@ -71,7 +73,7 @@ mv /home/supertool/linux/lighttpd-1.4.18/doc/lighttpd.conf /usr/local/lighttpd/c
 cp /home/supertool/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat /etc/init.d/lighttpd
 
 vim conf/lighttpd.conf
-{% highlight console %}
+{% endhighlight %}
 将 #”mod_fastcgi”, 的#去掉
 {% highlight console %}
 server.modules              = (
@@ -85,7 +87,7 @@ server.modules              = (
 #                               "mod_status",
 #                               "mod_setenv",
                               "mod_fastcgi",
-{% highlight console %}
+{% endhighlight %}
 
 找到fastcgi的定义，去掉下面fastcgi.server部分的注释：
 
@@ -106,7 +108,7 @@ fastcgi.server             = ( ".php" =>
                                 )
                               )
                            )
-{% highlight console %}
+{% endhighlight %}
                                    
 h3. 启动lighttpd：
 /usr/local/lighttpd/sbin/lighttpd -f /usr/local/lighttpd/conf/lighttpd.conf
@@ -119,4 +121,4 @@ h3. 启动lighttpd：
 {% highlight console %}
 #test.php
 <?php phpinfo(); ?>
-{% highlight console %}
+{% endhighlight %}
