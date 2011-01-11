@@ -17,8 +17,8 @@ make clean
 {% highlight console %}
 /usr/sbin/adduser mysql
 cd /usr/local/mysql/bin/
-mkdir /home/supertool/soft
-mv /etc/my.cnf /home/supertool/soft/
+mkdir /home/tontinme/soft
+mv /etc/my.cnf /home/tontinme/soft/
 ./mysql_install_db
 chown mysql.mysql /usr/local/mysql -R
 cp ./mysql* /usr/bin/
@@ -40,7 +40,7 @@ make clean
 复制参数文件到目标目录:
 
 {% highlight console %}
-cp /home/supertool/linux/php-5.2.14/php.ini-dist /usr/local/php-fcgi/lib/php.ini
+cp /home/tontinme/linux/php-5.2.14/php.ini-dist /usr/local/php-fcgi/lib/php.ini
 {% endhighlight %}
 
 检查fast-cgi是否安装成功可以运行如下命令
@@ -73,8 +73,8 @@ chmod -R 777 /usr/local/lighttpd/log/
 
 touch /tmp/php-fastcgi.socket
 
-mv /home/supertool/linux/lighttpd-1.4.18/doc/lighttpd.conf /usr/local/lighttpd/conf/
-cp /home/supertool/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat /etc/init.d/lighttpd
+mv /home/tontinme/linux/lighttpd-1.4.18/doc/lighttpd.conf /usr/local/lighttpd/conf/
+cp /home/tontinme/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat /etc/init.d/lighttpd
 
 vim conf/lighttpd.conf
 {% endhighlight %}
@@ -123,7 +123,7 @@ h3. 启动lighttpd：
 
 停止lighttpd:
 /etc/init.d/lighttpd stop
-(/home/supertool/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat stop)
+(/home/tontinme/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat stop)
 
 最后可以在程序目录下建个test.php,检查一下是否正常!
 
