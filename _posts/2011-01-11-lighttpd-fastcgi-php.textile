@@ -1,0 +1,122 @@
+---
+layout: post
+title: lighttpd下用fastcgi调用php
+category: tech
+---
+h3. 安装mysql
+{% highlight console %}
+tar zxvf mysql-5.0.45.tar.gz
+cd mysql-5.0.45
+./configure --prefix=/usr/local/mysql --with-charset=gbk --enable-thread-safe-client
+make && make install
+make clean
+{% highlight console %}
+
+{% highlight console %}
+/usr/sbin/adduser mysql
+cd /usr/local/mysql/bin/
+mkdir /home/supertool/soft
+mv /etc/my.cnf /home/supertool/soft/
+./mysql_install_db
+chown mysql.mysql /usr/local/mysql -R
+cp ./mysql* /usr/bin/
+cp -a /usr/local/mysql/lib/mysql/libmysqlclient* /usr/lib
+cp -a /usr/local/mysql/lib/mysql/libmysqlclient* /usr/lib64
+cp -r /usr/local/mysql/include/mysql /usr/include/
+{% highlight console %}
+
+h3. 安装php
+
+{% highlight console %}
+tar zxvf php-5.2.14.tar.gz
+cd php-5.2.14
+./configure --prefix=/usr/local/php-fcgi --enable-fastcgi --enable-force-cgi-redirect --without-iconv --enable-mbstring --with-mysql=/usr/local/mysql
+make && make install
+make clean
+{% highlight console %}
+
+复制参数文件到目标目录:
+{% highlight console %}
+cp /home/supertool/linux/php-5.2.14/php.ini-dist /usr/local/php-fcgi/lib/php.ini
+{% highlight console %}
+
+检查fast-cgi是否安装成功可以运行如下命令
+{% highlight console %}
+/usr/local/php-fcgi/bin/php-cgi -v
+{% highlight console %}
+显示如下信息，内容里包含“PHP 5.2.14 (cgi-fcgi)"表示支持fast-cgi了
+PHP 5.2.14 (cgi-fcgi) (built: Oct  5 2010 01:28:59)
+Copyright (c) 1997-2010 The PHP Group
+Zend Engine v2.2.0, Copyright (c) 1998-2010 Zend Technologies
+
+
+h3. 安装fastcgi
+
+{% highlight console %}
+tar zxvf lighttpd(请先安装pcre，再编译此软件)
+cd lighttpd-1.4.18     
+./configure --enable-maintainer-mode --prefix=/usr/local/lighttpd
+make && make install
+make clean
+
+mkdir /usr/local/lighttpd/conf
+mkdir /usr/local/lighttpd/log
+touch /usr/local/lighttpd/log/error.log
+touch /usr/local/lighttpd/log/access.log
+chmod -R 777 /usr/local/lighttpd/log/
+
+touch /tmp/php-fastcgi.socket
+
+mv /home/supertool/linux/lighttpd-1.4.18/doc/lighttpd.conf /usr/local/lighttpd/conf/
+cp /home/supertool/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat /etc/init.d/lighttpd
+
+vim conf/lighttpd.conf
+{% highlight console %}
+将 #”mod_fastcgi”, 的#去掉
+{% highlight console %}
+server.modules              = (
+                              "mod_rewrite",
+                              "mod_redirect",
+#                               "mod_alias",
+                               "mod_access", 
+#                               "mod_cml",
+#                               "mod_trigger_b4_dl",
+#                               "mod_auth",
+#                               "mod_status",
+#                               "mod_setenv",
+                              "mod_fastcgi",
+{% highlight console %}
+
+找到fastcgi的定义，去掉下面fastcgi.server部分的注释：
+
+找到下面几行，更改路径如下：
+{% highlight console %}
+server.document-root        = "/var/www/html/"
+server.errorlog             = "/usr/local/lighttpd/log/error.log"
+accesslog.filename          = "/usr/local/lighttpd/log/access.log"
+
+#### fastcgi module
+## read fastcgi.txt for more info
+## for PHP don't forget to set cgi.fix_pathinfo = 1 in the php.ini
+fastcgi.server             = ( ".php" =>
+                              ( "localhost" =>
+                                (
+                                  "socket" => "/tmp/php-fastcgi.socket",                    //更改socket路径
+                                  "bin-path" => "/usr/local/php-fcgi/bin/php-cgi"               //更改php-cgi路径
+                                )
+                              )
+                           )
+{% highlight console %}
+                                   
+h3. 启动lighttpd：
+/usr/local/lighttpd/sbin/lighttpd -f /usr/local/lighttpd/conf/lighttpd.conf
+
+停止lighttpd:
+/etc/init.d/lighttpd stop
+(/home/supertool/linux/lighttpd-1.4.18/doc/rc.lighttpd.redhat stop)
+
+最后可以在程序目录下建个test.php,检查一下是否正常!
+{% highlight console %}
+#test.php
+<?php phpinfo(); ?>
+{% highlight console %}
