@@ -23,41 +23,24 @@
 			<div id="header">
 				<h1><a href="/">tontinme's blog</a></h1>
 				<ul>
-					<li><a href="#about">About</a></li>
-					<li><a href="#quotes">Quotes</a></li>
-					<li><a href="#projects">Projects</a></li>
-					<li><a href="http://tontinme.github.com/resume">Resume</a></li>
-					<li><a href="#links">Links</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li>
+						<a href="#">ARTICLES</a>
+						<ul>
+							{% for category in site.categories %}
+							<li><a href="/{{ category[0]  }}.html"> {{ category[0]  }}</a></li>
+							{% endfor %}
+						</ul>
+					</li>
+					<li><a href="/quotes.html">QUOTES</a></li>
+					<li><a href="/projects.html">PROJECTS</a></li>
+					<li><a href="/about.html">ABOUT</a></li>
+					<li><a href="/resume">RESUME</a></li>
+					<li><a href="/links.html">LINKS</a></li>
+					<li><a href="/contact.html">CONTACT</a></li>
 				</ul>
 			</div>
 			<br />
 			{{ content }}
-
-			<p class="nav" id="about">ABOUT</p>
-			<ul class="index">
-				<li>test page,this is just a test!</li>
-				<li>这里暂时只是一个测试页面，一切仍在实践中</li>
-				<li>继续测试，继续测试</li>
-				<li>php/nginx/mysql/centos/python/jquery/vim/firefox/git/</li>
-			</ul>
-
-			<p class="nav" id="projects">PROJECTS</p>
-			<ul class="index">
-				<li><a href="http://xingzher.com">博客</a> <span style="color:#999">- 个人博客</span></li>
-			</ul>
-
-			<p class="nav" id="quotes">QUOTES</p>
-			<ul class="index">
-				<li>whatever excites you, go do it; whatever scares you, go do it.<span style="color:#999"> - <a style="color:#999" href="http://sivers.org/scares-excites-do-it">Derek Sivers</a></span></li>
-				<li>there is no speed limit.<span style="color:#999"> - <a style="color:#999" href="http://sivers.org/kimo">Derek Sivers</a></span></li>
-				<li>your effort to remain what you are is what limits you.<span style="color:#999"> - Puppet Master</span></li>
-				<li>make everything as simple as possible, but not simpler.<span style="color:#999"> - Albert Einstein</span></li>
-				<li>know exactly what you want.<span style="color:#999"> - <a style="color:#999" href="http://www.stevepavlina.com/articles/do-it-now.htm">steve pavlina</a></span></li>
-				<li>许多事情，不是因为难以做到才让人们失去信心，而是人们失去了信心，事情才变得难以做到<span style="color:#999"> - 网络</span></li>
-				<li>我们觉得不快乐，是因为往往我们追求的不是“幸福”，而是“比别人幸福”<span style="color:#999"> - 网络</span></li>
-				<li>每个人从出生开始就呆在自己挖的一个洞穴里，我们所见的世界只不过是被阳光抛到洞穴墙壁上的影像，而我们这些洞穴的居民却把它当作是真实的世界，因为我们没有见到过其他的东西。而真实的世界却是在洞穴之外，在有太阳的地方<span style="color:#999"> - 柏拉图 洞穴理论</span></li>
-			</ul>
 
 			<div id="memo" style="display:none">
 				<p class="nav">2011 TECH GOALS</p>
@@ -79,18 +62,9 @@
 				</ul>
 			</div>
 
-			<p class="nav" id="links">LINKS</p>
-			<div>
-				<a href="http://github.com/tontinme">github</a><span style="color:#999"><span style="color:#999"> / </span></span>
-				<a href="http://twitter.com/tontinme">twitter</a>
-			</div>
-
-			<p class="nav" id="contact">CONTACT</p>
-			<div>tontinme at gmail.com</div>
-
 			<div id="footer">
 				<a id="feed" href="http://feeds.feedburner.com/tontinme"><img src="/image/feed.png"></a></a>
-				<span style="color:#bbb;font-size:12px">让部分人的生活变得更加美好和方便</span>
+				<span style="color:#bbb;font-size:12px">世界如此安静</span>
 				<p style="clear:both"></p>
 			</div>
 		</div>
