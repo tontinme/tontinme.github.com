@@ -162,8 +162,8 @@ h1 {
 	-webkit-border-radius:5px;
 	border-radius:5px;
 	-moz-box-shadow:0 1px 0 #FFFFFF;
-	background-color:#222222;
-	color:#FFFFFF;
+	/*background-color:#222222;*/
+	color:#345768;
 	display:inline;
 	float:left;
 	font-weight:400;
