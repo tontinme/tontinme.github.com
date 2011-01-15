@@ -54,5 +54,23 @@ title: tontinme's blog
 		{% endfor %}
 	</ul>
 
+	<ul class="posts">
+            {% for post in site.posts limit:7 offset:0 %}
+            <li class="{% cycle 'one', 'two' %}">
+               <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
+               &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+            <li class="none">
+               <a href="/archives/">View more posts in the archives...</a>
+            </li>
+         </ul>
+
+	<ul class="posts">
+		{% for post in site.posts %}
+		<li><p class="date" cate="{{ post.categories }}">{{ post.date | date:"%Y-%m-%d" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
+		{% endfor %}
+	</ul>
+
 </div>
 <p style="border-top:1px solid #bbb; margin:20px -20px"></p>
