@@ -46,7 +46,7 @@ h2, h3, h4, h5, h6 {
 	color:#333333;
 }
 p, h2, h3, h4, h5, h6, ul {
-	margin:20px 0;
+	margin:0;
 }
 a {
 	color:#000000;
@@ -88,6 +88,18 @@ div#wrapper {
 
 #content li a {
 	font-weight:normal;
+}
+
+#logo {
+	width:740px;
+	margin:20px auto;
+}
+
+#logo h1 a{
+	font-weight:bold;
+	font-size:35px;
+	color:#F78C1D;
+	letter-spacing:3px;
 }
 
 div#content img, div#content object {
