@@ -23,4 +23,12 @@ RewriteRule (.+).html$ /$1/ [R=301,L]
 # compress all text & html:
 AddOutputFilterByType DEFLATE text/html text/plain text/xml
 
+# controls the setting of the Expires HTTP header and the max-age directive of the Cache-Control HTTP header in server responses
+<FilesMatch “\.(ico|jpg|jpeg|png|gif|js|css|swf|html|htm|gzip)$”>
+ExpiresActive on
+ExpiresDefault “access plus 2 hours”
+Header set Cache-Control “max-age=1800, public”
+FileETag none
+</FilesMatch>
+
 ErrorDocument 404 /404.html
