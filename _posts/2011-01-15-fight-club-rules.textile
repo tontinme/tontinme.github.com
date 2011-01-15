@@ -1,6 +1,7 @@
 ---
 layout: post
-title: fight club rules
+title: 搏击俱乐部_Rules
+category: movie_music
 location: beijing
 time: 16:20:03
 ---
