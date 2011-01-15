@@ -1,7 +1,7 @@
 ---
 layout: post
 title: lighttpd下用fastcgi调用php
-category: tech
+category: notes 
 ---
 
 h3. 安装mysql

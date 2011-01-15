@@ -5,14 +5,14 @@ title: tontinme's blog
 
 <div id="content" class="index">
 
-	<p class="nav">TECH</p>
+	<p class="nav">NOTES</p>
 	<ul class="posts">
-		{% for post in site.categories.tech %}
+		{% for post in site.categories.notes %}
 		<li><p class="date">{{ post.date | date:"%b %d, %Y" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
 		{% endfor %}
 	</ul>
 
-	<p class="nav">OS PROJECTS</p>
+	<p class="nav">PROJECTS</p>
 	<ul class="posts">
 		{% for post in site.categories.project %}
 		<li><p class="date">{{ post.date | date:"%b %d, %Y" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
@@ -26,23 +26,17 @@ title: tontinme's blog
 		{% endfor %}
 	</ul>
 
-	<p class="nav">TRANSLATES</p>
+	</ul>
+	<p class="nav">INTERESTING</p>
 	<ul class="posts">
-		{% for post in site.categories.translate %}
+		{% for post in site.categories.interesting %}
 		<li><p class="date">{{ post.date | date:"%b %d, %Y" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
 		{% endfor %}
 	</ul>
 
-	<p class="nav">READINGS</p>
+	<p class="nav">MOVIES & MUSIC</p>
 	<ul class="posts">
-		{% for post in site.categories.reading %}
-		<li><p class="date">{{ post.date | date:"%b %d, %Y" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
-		{% endfor %}
-	</ul>
-
-	<p class="nav">MOVIES</p>
-	<ul class="posts">
-		{% for post in site.categories.movie %}
+		{% for post in site.categories.movie_music %}
 		<li><p class="date">{{ post.date | date:"%b %d, %Y" }}</p> <a href="{{ post.url }}">{{ post.title }}</a></li>
 		{% endfor %}
 	</ul>
