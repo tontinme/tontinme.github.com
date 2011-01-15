@@ -12,9 +12,7 @@ cd mysql-5.0.45
 ./configure --prefix=/usr/local/mysql --with-charset=gbk --enable-thread-safe-client
 make && make install
 make clean
-{% endhighlight %}
 
-{% highlight console %}
 /usr/sbin/adduser mysql
 cd /usr/local/mysql/bin/
 mkdir /home/tontinme/soft
