@@ -10,7 +10,7 @@ title: tontinme's blog
 	</ul>
 
 	<ul class="posts">
-            {% for post in site.posts limit:7 offset:0 %}
+            {% for post in site.posts limit:2 offset:0 %}
             <li class="{% cycle 'one', 'two' %}">
                <span class="date">{{ post.date | date: "%b %d, %Y" }}</span>
                &raquo; <a href="{{ post.url }}">{{ post.title }}</a>
