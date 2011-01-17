@@ -212,8 +212,8 @@ div#content li ul li {
 	margin-bottom:50px;
 }
 .cnt h3 {
-	background:none repeat scroll 0 0 #DDDDDD;
-	font-size:25px;
+/*	background:none repeat scroll 0 0 #DDDDDD; */
+	font-size:20px;
 	margin:20px -20px;
 	padding:10px 20px;
 }
@@ -244,13 +244,13 @@ pre {
 	-moz-border-radius:5px 5px 5px 5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	-moz-box-shadow:0 -1px 0 #444444;
-	background-color:#222222;
+	-moz-box-shadow:0 -1px 0 #DDDDDD;
+	background-color:#DDDDDD;
 	color:#FFFFFF;
 	font-size:13px;
 	margin:0 0 0 -40px;
 	padding:20px;
-	text-shadow:0 1px 0 #000000;
+	text-shadow:0 0px 0 #322222; 
 	white-space:pre-wrap;
 	width:740px;
 	word-wrap:break-word;
