@@ -17,7 +17,9 @@ h2. 配置DHCP
 h3. 安装dhcp
 
 {% highlight console %}
+
 yum install -y dhcp
+
 {% endhighlight %}
 
 安装完成之后，拷贝dhcp.conf.sample文件到/etc下
