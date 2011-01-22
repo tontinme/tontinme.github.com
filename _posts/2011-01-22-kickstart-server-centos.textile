@@ -1,6 +1,6 @@
 ---
 layout: post
-title: kickstart server CentOS
+title: kickstart server 配置安装（基于CentOS）
 category: notes
 time: 04:18:44
 ---
