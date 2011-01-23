@@ -101,11 +101,14 @@ mkdir /tftpboot/pxelinux.cfg
 创建/tftpboot/pxelinux.cfg/default文件
 touch /tftpboot/pxelinux.cfg/default
 添加文件内容如下：
+
+{% highlight bash %}
 default linux
 prompt  0
 label   linux
 kernel  vmlinuz
 append  ks=nfs:192.168.1.85:/netinstall/ks.cfg initrd=initrd.img ksdevice=eth0	//指定ks.cfg文件的位置
+{% endhighlight %}
 
 h2. 配置nfs网络安装
 
@@ -236,6 +239,7 @@ h2. 附
 
 h3. 使用kickstart Server时，所需开启（或重启）的所有服务：
 
+{% highlight bash %}
 #!/bin/bash
 #server_restart.sh
 /etc/init.d/network restart
@@ -245,10 +249,13 @@ chmod a+x /netinstall/ks.cfg
 /etc/init.d/portmap restart
 /etc/init.d/nfs restart
 /usr/sbin/exportfs *:/netinstall
+{% endhighlight %}
 
 h3. 配置Kickstart Server时共有四个文件需要更改IP为当前配置机的IP，分别为：
 
+{% highlight bash %}
 /etc/dhcpd.conf
 /tftpboot/pxelinux.cfg/default
 /etc/sysconfig/network-scripts/ifcfg-eth0
 /netinstall/ks.cfg
+{% endhighlight %}
