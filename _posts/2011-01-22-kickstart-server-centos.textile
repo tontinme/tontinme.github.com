@@ -107,7 +107,7 @@ default linux
 prompt  0
 label   linux
 kernel  vmlinuz
-append  ks=nfs:192.168.1.85:/netinstall/ks.cfg initrd=initrd.img ksdevice=eth0	//指定ks.cfg文件的位置
+append  ks=nfs:192.168.1.85:/netinstall/ks.cfg initrd=initrd.img ksdevice=eth0	#指定ks.cfg文件的位置
 {% endhighlight %}
 
 h2. 配置nfs网络安装
