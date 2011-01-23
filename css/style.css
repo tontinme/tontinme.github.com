@@ -196,7 +196,7 @@ h2, h3, h4, h5, h6 {
 	line-height:100%;
 }
 h2 {
-	font-size:35px;
+	font-size:20px;
 	line-height:150%;
 	margin-bottom:20px;
 }
@@ -213,12 +213,12 @@ div#content li ul li {
 }
 .cnt h3 {
 /*	background:none repeat scroll 0 0 #DDDDDD; */
-	font-size:20px;
+	font-size:17px;
 	margin:5px -20px;
 	padding:10px 20px;
 }
 h4 {
-	font-size:20px;
+	font-size:15px;
 }
 ul.columns {
 	-moz-column-gap:20px;
@@ -246,7 +246,7 @@ pre {
 	border-radius:5px;
 	-moz-box-shadow:0 -1px 0 #DDDDDD;
 	background-color:#DDDDDD;
-	color:#FFFFFF;
+	color:#006598;
 	font-size:13px;
 	margin:0 0 0 -40px;
 	padding:20px;
