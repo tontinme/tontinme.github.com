@@ -15,8 +15,12 @@ p{color:red}. Note: In the instructions below, replace unixfile.txt with the nam
 
 h3. FTP
 
-When using an FTP program to move a text file between Unix and Windows, be sure the file is transferred in ASCII format, so the document is transformed into a text format appropriate for the host. Some FTP programs, especially graphical applications (e.g., Hummingbird FTP), do this automatically. If you are using command line FTP, before you begin the transfer, enter:
+When using an FTP program to move a text file between Unix and Windows, be sure the file is transferred in ASCII format, so the document is transformed into a text format appropriate for the host. Some FTP programs, especially graphical applications (e.g., Hummingbird FTP), do this automatically. If you are using command line FTP, before you begin the transfer, enter
+
+{% highlight bash %}
         ascii
+{% endhighlight %}
+
 p{color:red}. Note: You need to use a client that supports secure FTP to transfer files to and from Indiana Universitys central systems. For more, see At IU, what SSH/SFTP clients are supported and where can I get them?
 
 h3. dos2unix and unix2dos
@@ -89,4 +93,5 @@ In vi, you can remove carriage return ( ^M ) characters with the following comma
 p{color:red}. Note: To input the ^M character, press Ctrl-v , and then press Enter or return.
 In vim, use :set ff=unix to convert to Unix; use :set ff=dos to convert to Windows.
 
-from:http://kb.iu.edu/data/acux.html
+
+From : http://kb.iu.edu/data/acux.html
