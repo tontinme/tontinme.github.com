@@ -1,0 +1,90 @@
+---
+layout: post
+title: KickStart识别第三方网卡驱动
+category: notes
+time: 10:54:15
+---
+转载自：http://blogold.chinaunix.net/u3/111085/showart_2185878.html,稍作修改。
+
+使用Kickstart安装centos时出现无法识别网卡
+  的现象。具体表现为：安装时提示错误："Unable to download the kickstart file.  Please modify the kickstart 
+  parameter below..."
+
+找到具体网卡的linux驱动并下载
+
+===***如果是使用光盘或其它方式安装系统，请按如下方式安装网卡驱动：***===
+
+下载网卡驱动到/home/cinder下，
+~>tar zxvf AR81Family-linux-v1.0.1.14.tar.gz
+~>cd AR81Family-linux-v1.0.1.14/src/
+~>make install
+安装结束之后会新建一个/lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e/atl1e.ko模块文件。
+重启电脑，网卡驱动安装成功。
+
+#insmod /lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e/atl1e.ko
+#modprobe atl1e echo “alias eth0 atl1e” >> /etc/modprobe.conf
+#vim /etc/sysconfig/network-scripts/ifcfg-ethX
+#>DEVICE=ethX
+#>ONBOOT=yes
+#>BOOTPROTO=none
+#>IPADDR=192.168.0.X
+#>NETMASK=255.255.255.0
+/etc/sysconfig/network-scripts/ifcfg-ethX网卡配置文件最好把机器重启让它自动生成。
+
+===***KickStart自动识别网卡***===
+
+要处理的部分有两个：
+第一：让anaconda安装程序识别网卡。客户端需要的安装文件通过NFS等等协议传输。
+第二：安装完毕的操作系统自动安装好网卡驱动。
+
+先谈第一部分，anaconda可以支持从网络获取安装文件，但前提是安装启动之后网卡是已经驱动好了的。
+我们要做的就是将网卡驱动加入到initrd.img文件中，这个文件位于PXE服务器/tftpboot/目录，initrd.img文件被称为内核
+  模块文件，包含了大量驱动，安装时启动的内核需要网卡驱动时会读取模块及相关信息。安装结束之后，新的系统仍然不能
+  驱动网卡，这个放在第二步处理。
+1.先准备好网卡的驱动模块文件atl1e.ko.
+
+#我们刚才看到的是编译安装而来的，也有可能驱动在一个rpm包的，你也可以将其解开。
+#mkdir /tmp/2.6.18-53.el5
+#cd /tmp/2.6.18-53.el5
+#rpm2cpio /mnt/cdrom/Server/kernel-XXXXXXXXXXXXXXX.rpm | cpio -ivd
+ 
+2.解开initrd.img
+
+~>mkdir /tmp/kickstart
+~>cd /tmp/kickstart
+~>gzip -dc /tftpboot/initrd.img | cpio -ivd
+~>cd modules
+~>gzip -dc modules.cgz | cpio -ivd
+
+3.modules子目录中的modules.cgz是经过gzip压缩过的cpio包，将其解开。
+解开之后的目录中有大量扩展名为ko的驱动模块文件，把我们想要支持的硬件驱动模块加进去，这样在安装过程中，anaconda
+  程序会正常支持我们想要的硬件。当然过程并非只是复制一个ko驱动模块文件，还需要更新一个模块信息文件。
+
+~>cd /tmp/kickstart/modules
+~>cp /lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e/atl1e.ko /tmp/kickstart/modules/2.6.18-128.el5/x86_64/
+~>modinfo -F alias 2.6.18-128.el5/x86_64/atl1e.ko | sed -e 's/^/alias /' -e 's/$/ atl1e/' >> modules.alias
+
+（注意sed语句中置换目标中的空格。第三条命令中的两个模块名称请随着实际情况更改）
+4.然后把修改过的内容打包成一个initrd.img文件，PXE服务器会把它发给客户机使用。不过这里要注意打包时的压缩格式，
+  modules.cgz文件用的是crc格式，而initrd.img文件用的是newc格式，命令参数不要弄错。
+
+~>cd /tmp/kickstart/modules
+~>find 2.6.18-128.el5 | cpio -o -H crc | gzip -9 > modules.cgz
+~>rm -rf 2.6.18-128.el5
+~>cd ..
+~>find . | cpio -o -H newc | gzip -9 > /tmp/initrd.img
+ 
+5.将打包好的initrd.img文件复制到/tftpboot/目录，测试客户机能否在安装时使用网卡。
+不出意外的话，安装过程非常顺利，网卡正常工作了，安装文件从服务器中通过NFS或者HTTP、FTP之类的协议获得
+
+#客户端系统安装结束之后，你会发现网卡仍然不能工作，这里我们还需要处理第二部分要做的，让安装完的系统自动获得新驱动。
+#如果用kickstart的话，这一切实在太简单了。
+#编辑kickstart文件，在%post段中加几条命令
+
+#~>rm -rf  /lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e/
+#~>mkdir  /lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e
+#~>cd  /lib/modules/2.6.18-128.el5/kernel/drivers/net/atl1e/
+#~>wget http://192.168.1.85/atl1e.ko
+ 
+atl1e.ko模块文件会从一个http或ftp服务器下载到客户机中。
+整个建设过程忽略了很多麻烦的地方，如果是有多种内核多个版本操作系统的存在的话，自动处理并不好做。
