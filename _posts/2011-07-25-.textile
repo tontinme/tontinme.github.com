@@ -1,0 +1,65 @@
+
+h2. 介绍：
+
+DAV的意思是“Distributed Authoring and Versioning”。RFC 2518为HTTP 1.1定义了一组概念和附加扩展方法来把web变成一个更加普遍的读/写媒体，基本思想是一个WebDAV兼容的web服务器可以像普通的文件服务器一样工作；客户端可以通过HTTP装配类似于NFS或SMB的WebDAV共享文件夹。
+	悲惨的是，RFC规范并没有提供任何版本控制模型。基本的DAV客户端和服务器只是假定每个文件或目录只有一个版本存在，可以重复的覆盖。
+	RFC 3253添加了WebDAV的版本化，也就是“DeltaV”。WebDAV/DeltaV客户端和服务器经常叫做“DeltaV”客户端和服务器，因为DeltaV暗含了基本的WebDAV。但是不幸的是，DeltaV没有太成功，很难寻找到任何DeltaV客户端和服务器。
+WebDav协议允许用户通过HTTP保存和共享文件，除了访问文档外，用户可以编辑和重新上传它们，你可以将其理解为一种基于HTTP的网络文件系统，或一种支持长距离文件协作的方法
+WebDav协议支持文件锁和版本控制(DeltaV支持版本控制)
+和FTP不一样，HTTP提供强认证和加密，以及缓存和代理支持，因为WebDAV是工作在HTTP之上的，因此它也可以利用HTTP的这些特性
+
+h2. 在apache下的安装方法
+
+下载mod_dav源码包
+
+{% highlight console %}
+cd mod_dav源码包
+./configure --with-apxs=/usr/local/apache/bin/apxs
+#OR ./configure --with-apache=/usr/local/apache
+make;make install
+{% endhighlight %}
+
+然后修改httpd.conf
+加上
+
+{% highlight console %}
+LoadModule dav_module modules/mod_dav.so
+LoadModule dav_fs_module modules/mod_dav_fs.so
+#mod_dav_fs	为mod_dav访问服务器上的文件系统提供支持
+
+# 如果要对svn使用WebDav的话，需要加载
+# LoadModule dav_svn_module     modules/mod_dav_svn.so	
+	#mod_dav_svn模块是作为Subversion与Apache之间的接口，通过它，Apache就可以访问版本库，并且可以让客户端也使用HTTP的扩展协议WebDAV/DeltaV进行访问。
+# LoadModule authz_svn_module   modules/mod_authz_svn.so
+	#用mod_authz_svn进行访问权限控制，这里也可以用apache的<limit>方式进行权限控制
+<IfModule mod_dav.c>
+    DAVLockDB ${APACHE_LOCK_DIR}/DAVLock
+	#指定dav lock database的路径
+<IfModule>
+{% endhighlight %}
+
+然后找到要开启webdav支持的目录（首先要apache支持该目录），编辑httpd.conf加上
+
+{% highlight console %}
+Alias /webdav /usr/local/webdav
+<Location /webdav>
+	Dav On
+	Order Allow,Deny
+	Allow from all
+	AuthType Basic
+	#也可以使用MD5 Digest认证	AuthType Digest
+	AuthName DAV
+	AuthUserFile /usr/local/webdav/.htpasswd
+	#指定用于用户验证的文件，里面是用户名和密码
+	# 这个文件用apache的htpasswd命令创建，密码是用MD5加密的	$htpasswd -c /usr/local/webdav/.htpasswd
+	Require valid-user
+</Location>
+{% endhighlight %}
+
+h2. WebDav客户端及使用
+
+	可以直接通过浏览器访问，但是无法修改
+	可以通过将一个目录添加到网上邻居列表中并像处理本机文件系统那样来显示其内容，来连接WebDav目录，可以拖放、检索和修改文件属性及完成许多其他的文件系统任务。但是因为它只是文件浏览器的一个特性，DAV对普通应用不可见，所有的DAV交互必须通过浏览器界面。
+	可以使用支持webdav的ftp客户端，比如BitKinex FTP
+	linux下可以使用命令行工具cadaver
+	另外像MSOffice、AdobePhotoshop、Dreamweaver等都支持直接从webdav的url打开和修改文件
