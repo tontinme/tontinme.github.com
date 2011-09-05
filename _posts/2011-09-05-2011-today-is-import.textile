@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 啊，乱码了
+title: 慢慢前行
 category: life
 time: 23:00:24
 ---
