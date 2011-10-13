@@ -58,22 +58,37 @@ h3. rebuild磁盘过程中磁盘的State变化
 
 h3. 附. 磁盘各个状态说明
 
-A physical disk drive property indicating the status of the drive. A physical disk drive can be in one of the following states:
-    Unconfigured Good   A disk accessible to the RAID controller but not configured as a part of a virtual disk or as a hotspare.
-    Online              A physical disk can be accessed by the RAID controller and is part of the virtual disk.
-    Rebuild             A physical disk to which data is being written to restore full redundancy for a virtual disk.
-    Failed              A physical disk that was originally configured as Online but on which the firmware detects an unrecoverable error.
-    Unconfigured Bad    A physical disk on which the firmware detects an unrecoverable error; the physical disk was Unconfigured Good or 
-			the physical disk could not be initialized.
-                        Disks with a status of "Unconfigured bad" cannot be used for RAID configurations.
-    Missing             A physical disk that was Online, but which has been removed from its location.
-    Offline             The drive is offline or absent. No actions can be performed on the drive until it is back online.
-    Global Hotspare     The drive will be used to repair any array in the system that had a drive failure, if the failed drive is 
-			equal to, or smaller than the hot spare drive.
-    Ready               The drive is online and operating correctly.
-    Foreign             The drive is part of an array created on a different controller, or created within one enclosure and moved to 
-			another on the same controller. It can be used to create a new array after clearing configuration.
-    None                A physical disk with the unsupported flag set. An Unconfigured Good or Offline physical disk that has completed 
-			the prepare for removal operation.
-    copyback
+A physical disk drive property indicating the status of the drive. A physical disk drive can be in one of 
+the following states:
+
+{% highlight console %}
+Unconfigured Good
+A disk accessible to the RAID controller but not configured as a part of a virtual disk or as a hotspare.
+Online
+A physical disk can be accessed by the RAID controller and is part of the virtual disk.
+rebuild
+A physical disk to which data is being written to restore full redundancy for a virtual disk.
+failed
+A physical disk that was originally configured as Online but on which the firmware detects an unrecoverable error.
+Unconfigured bad
+A physical disk on which the firmware detects an unrecoverable error; the physical disk was Unconfigured Good or 
+the physical disk could not be initialized.
+Disks with a status of "Unconfigured bad" cannot be used for RAID configurations.
+Missing
+A physical disk that was Online, but which has been removed from its location.
+offline
+ The drive is offline or absent. No actions can be performed on the drive until it is back online.
+Global hotspare
+The drive will be used to repair any array in the system that had a drive failure, if the failed drive is 
+equal to, or smaller than the hot spare drive.
+Ready
+The drive is online and operating correctly.
+Foreign
+The drive is part of an array created on a different controller, or created within one enclosure and moved to 
+another on the same controller. It can be used to create a new array after clearing configuration.
+None
+A physical disk with the unsupported flag set. An Unconfigured Good or Offline physical disk that has completed 
+the prepare for removal operation.
+copyback
+{% endhighlight %}
 
