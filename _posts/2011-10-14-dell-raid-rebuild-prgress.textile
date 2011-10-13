@@ -86,5 +86,6 @@ The drive is part of an array created on a different controller, or created with
 >None
 A physical disk with the unsupported flag set. An Unconfigured Good or Offline physical disk that has completed the prepare for removal operation.
 >copyback
+A bad physical disk replaced by a good one, then hotspare will copyback data to the good one and change back to hotspare
 {% endhighlight %}
 
