@@ -1,3 +1,4 @@
 _site/*
 *.sh
 _drafts/*
+*.swp
