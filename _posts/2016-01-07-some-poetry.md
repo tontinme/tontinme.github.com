@@ -1,6 +1,6 @@
 ---
 layout: post
-title: some poetry
+title: 还有一些
 category: thinking
 time: 22:03:33
 ---
